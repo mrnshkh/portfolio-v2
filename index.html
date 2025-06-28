@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mrnshkh – Frontend Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0f0f0f;
+      --text-color: #f1f1f1;
+      --accent-color: #0aff9d;
+      --card-bg: #1a1a1a;
+      --hover-shadow: rgba(0, 255, 204, 0.1);
+    }
+    body.light {
+      --bg-color: #f9f9f9;
+      --text-color: #111;
+      --accent-color: #00bfff;
+      --card-bg: #fff;
+      --hover-shadow: rgba(0, 153, 255, 0.1);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0d0d2b, #1e1e2f, #121212);
+      color: var(--text-color);
+      overflow-x: hidden;
+      transition: all 0.3s ease;
+    }
+    header {
+      padding: 60px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, #1e1e1e, #121212);
+    }
+    header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(to right, #00f0ff, var(--accent-color));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    header p {
+      margin-top: 15px;
+      font-size: 1.2rem;
+      color: #999;
+    }
+    .toggle-theme {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: 2px solid var(--accent-color);
+      color: var(--accent-color);
+      padding: 5px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .toggle-theme:hover {
+      background-color: var(--accent-color);
+      color: var(--bg-color);
+    }
+    section {
+      padding: 60px 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.6s ease-out;
+    }
+    section.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: var(--accent-color);
+    }
+    .skills-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .skill, .color-box {
+      background: var(--card-bg);
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      transition: 0.3s;
+      border: 1px solid #333;
+    }
+    .skill:hover, .color-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px var(--hover-shadow);
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .project-card {
+      background-color: var(--card-bg);
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px var(--hover-shadow);
+    }
+    .project-card h3 {
+      font-size: 1.3rem;
+      color: #00f0ff;
+      margin-bottom: 10px;
+    }
+    .contact a {
+      display: inline-block;
+      margin: 10px 10px 0 0;
+      padding: 10px 20px;
+      background: var(--accent-color);
+      color: var(--bg-color);
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .generator, .calculator {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 30px;
+      text-align: center;
+    }
+    .generator button, .calculator button {
+      padding: 10px 15px;
+      background: var(--accent-color);
+      color: var(--bg-color);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .calculator input {
+      width: 80%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #444;
+      background: #111;
+      color: #fff;
+    }
+    @media screen and (max-width: 600px) {
+      header h1 { font-size: 2.2rem; }
+      h2 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <button class="toggle-theme" onclick="toggleTheme()">🌓</button>
+  <header>
+    <h1>mrnshkh – Frontend Developer</h1>
+    <p>Создаю адаптивные интерфейсы, влюбляю в детали</p>
+  </header>
+  <section class="projects">
+    <h2>Random Color Generator</h2>
+    <div class="generator">
+      <div class="color-box" id="colorBox">#ffffff</div>
+      <button onclick="generateColor()">Сгенерировать</button>
+    </div>
+  </section>
+  <section class="projects">
+    <h2>Calculator</h2>
+    <div class="calculator">
+      <input type="text" id="calcInput" placeholder="2 + 2 * 5" />
+      <button onclick="calculate()">Вычислить</button>
+      <div id="calcResult"></div>
+    </div>
+  </section>
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+    }
+    const sections = document.querySelectorAll('section');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.1 });
+    sections.forEach(section => observer.observe(section));
+
+    function generateColor() {
+      const hex = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+      const box = document.getElementById('colorBox');
+      box.style.background = hex;
+      box.textContent = hex;
+    }
+
+    function calculate() {
+      try {
+        const input = document.getElementById('calcInput').value;
+        const result = eval(input);
+        document.getElementById('calcResult').textContent = `Результат: ${result}`;
+      } catch {
+        document.getElementById('calcResult').textContent = 'Ошибка в выражении';
+      }
+    }
+  </script>
+</body>
+</html>
