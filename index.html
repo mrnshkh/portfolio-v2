@@ -1,198 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mrnshkh – Portfolio v2</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mrnshkh – Portfolio v2</npm></title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-color: #0d0d0d;
-      --text-color: #f1f1f1;
-      --accent-color: #00ffe5;
-      --card-bg: #1c1c1c;
-      --hover-shadow: rgba(0, 255, 204, 0.1);
+      --bg-light: #f9f9f9;
+      --text-light: #111;
+      --bg-dark: #0d0d0d;
+      --text-dark: #f1f1f1;
+      --accent: #00ffe5;
+      --card-bg-light: #fff;
+      --card-bg-dark: #1c1c1c;
+      --shadow: rgba(0,255,229,0.2);
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: radial-gradient(circle at center, #101010 0%, #050505 100%);
-      color: var(--text-color);
-      overflow-x: hidden;
-      transition: all 0.3s ease;
-    }
-    header {
-      padding: 60px 20px;
-      text-align: center;
-      background: linear-gradient(135deg, #1e1e1e, #121212);
-    }
-    header h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      background: linear-gradient(to right, #00f0ff, var(--accent-color));
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-    header p {
-      margin-top: 15px;
-      font-size: 1.2rem;
-      color: #aaa;
-    }
-    section {
-      padding: 60px 20px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      color: var(--accent-color);
-    }
-    .skills-list, .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-    }
-    .card {
-      background: var(--card-bg);
-      padding: 20px;
-      border-radius: 12px;
-      border: 1px solid #333;
-      transition: 0.3s;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px var(--hover-shadow);
-    }
-    .music-player {
-      background: var(--card-bg);
-      border-radius: 12px;
-      text-align: center;
-      padding: 30px;
-      margin-top: 40px;
-      position: relative;
-      overflow: hidden;
-    }
-    .music-player img {
-      width: 120px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-    .wave {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 40px;
-      background: url('https://media4.giphy.com/media/f9k1tV7HyORcngKF8v/giphy.gif');
-      background-size: cover;
-      opacity: 0.2;
-    }
-    .generator, .calculator {
-      background: var(--card-bg);
-      border-radius: 12px;
-      padding: 20px;
-      margin-top: 30px;
-    }
-    .generator button,
-    .calculator button {
-      margin-top: 10px;
-      padding: 10px;
-      background: var(--accent-color);
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      color: #000;
-    }
-    input[type="number"] {
-      padding: 8px;
-      margin-right: 10px;
-      border-radius: 6px;
-      border: none;
-      width: 60px;
-    }
+    body { margin:0; padding:0; font-family:'Poppins',sans-serif; transition: background 0.3s, color 0.3s; }
+    body.light { background: var(--bg-light); color: var(--text-light); }
+    body.dark { background: var(--bg-dark); color: var(--text-dark); }
+    header { text-align:center; padding:60px 20px; background:linear-gradient(135deg,#1e1e1e,#121212); }
+    header h1 { margin:0; font-size:3rem; background:linear-gradient(to right,#00f0ff,var(--accent)); -webkit-background-clip:text; color:transparent; }
+    header p { margin-top:10px; color:#999; }
+    .toggle-theme { position:fixed;top:20px;right:20px;padding:8px 12px;border:2px solid var(--accent);background:none;color:inherit;cursor:pointer;border-radius:6px; }
+    section { max-width:1000px;margin:60px auto;opacity:0;transform:translateY(40px);transition:all 0.6s ease-out; padding:0 20px; }
+    section.show { opacity:1;transform:translateY(0); }
+    h2 { font-size:2rem;color:var(--accent);margin-bottom:20px; }
+    .skills-list,.projects-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; }
+    .card { background:var(--card-bg-dark);padding:20px;border-radius:12px;border:1px solid #333;transition:0.3s; }
+    body.light .card { background:var(--card-bg-light); }
+    .card:hover { transform:translateY(-5px); box-shadow:0 10px 20px var(--shadow); }
+    /* Music Player */
+    .music-player { position:relative; background:var(--card-bg-dark);border-radius:12px; padding:30px;text-align:center; margin-top:40px; overflow:hidden; }
+    body.light .music-player { background:var(--card-bg-light); }
+    .music-player img { width:120px;border-radius:10px; margin-bottom:15px; }
+    .music-player audio { width:100%; margin-top:10px; }
+    .wave { position:absolute;bottom:0;left:0;width:200%;height:60px; background:url('https://media4.giphy.com/media/f9k1tV7HyORcngKF8v/giphy.gif') repeat-x; opacity:0.1; animation:wave 8s linear infinite; }
+    @keyframes wave { to { transform:translateX(-50%); } }
+    /* Generator & Calculator */
+    .generator, .calculator { background:var(--card-bg-dark);border-radius:12px;padding:20px;margin-top:30px;text-align:center; }
+    body.light .generator, body.light .calculator { background:var(--card-bg-light); }
+    .generator .color-box { font-size:1.2rem; padding:20px; border-radius:8px; margin-bottom:10px; cursor:pointer; transition:0.3s; }
+    .calculator input { width:calc(50% - 10px);padding:10px;margin:5px;border-radius:6px;border:1px solid #444; }
+    .generator button, .calculator button { padding:10px 15px;background:var(--accent);border:none;border-radius:6px;cursor:pointer;font-weight:600; margin-top:10px; }
   </style>
 </head>
-<body>
+<body class="dark">
+  <button class="toggle-theme" onclick="toggleTheme()">🌗</button>
   <header>
     <h1>mrnshkh – Portfolio v2</h1>
-    <p>Frontend разработчик. Эстетика, адаптив и детали.</p>
+    <p>Frontend developer — adaptive interfaces & aesthetic details</p>
   </header>
 
-  <section>
-    <h2>Обо мне</h2>
-    <p>Я МИРОНШОХ, создаю адаптивные интерфейсы на HTML, CSS и JS. Фокусируюсь на чистом коде, эстетике и UX-деталях.</p>
+  <section class="about">
+    <h2>About Me</h2>
+    <p>Hello! I'm Mironshokh, creating pixel-perfect, responsive UIs with HTML, CSS, JS & Git. Passionate about animations, UX micro-interactions and clean code.</p>
   </section>
 
-  <section>
-    <h2>Навыки</h2>
+  <section class="skills">
+    <h2>Skills</h2>
     <div class="skills-list">
       <div class="card">HTML</div>
       <div class="card">CSS</div>
       <div class="card">JavaScript</div>
-      <div class="card">Git</div>
-      <div class="card">GitHub</div>
-      <div class="card">Responsive</div>
+      <div class="card">Git & GitHub</div>
+      <div class="card">Responsive Design</div>
+      <div class="card">DOM & API</div>
     </div>
   </section>
 
-  <section>
-    <h2>Проекты</h2>
+  <section class="projects">
+    <h2>Projects</h2>
     <div class="projects-grid">
-      <div class="card">ToDo на JS</div>
-      <div class="card">Portfolio v1</div>
-      <div class="card">Random Color Generator</div>
+      <div class="card"><strong>mrnshkh-todo</strong><p>Pure JS To-do App with modals and localStorage.</p></div>
+      <div class="card"><strong>Portfolio v1</strong><p>First portfolio version with smooth scroll & basic animations.</p></div>
+      <div class="card"><strong>Random Color Generator</strong><p>Clique to generate and copy hex color.</p></div>
     </div>
   </section>
 
-  <section>
-    <h2>Музыка</h2>
-    <div class="music-player">
-      <img src="https://i.ytimg.com/vi/9kjGbEhQ55Y/hqdefault.jpg" alt="cover">
-      <h3>Tak Tak Funk - CHIPBAGOV</h3>
-      <audio controls>
-        <source src="https://tg.giftedplayer.uz/files/taktakfunk.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-      </audio>
-      <div class="wave"></div>
-    </div>
+  <section class="music-player">
+    <h2>Music</h2>
+    <img src="https://img.youtube.com/vi/9kjGbEhQ55Y/hqdefault.jpg" alt="Cover">
+    <h3>Tak Tak Funk – chipbagov</h3>
+    <audio controls>
+      <source src="fonk.mp3" type="audio/mpeg">
+      Your browser does not support audio.
+    </audio>
+    <!-- Убедись, что файл fonk.mp3 лежит в папке audio рядом с index.html -->
+    <div class="wave"></div>
   </section>
 
-  <section>
-    <h2>🎨 Генератор цветов</h2>
-    <div class="generator">
-      <button onclick="generateColor()">Случайный цвет</button>
-      <p id="colorResult"></p>
-    </div>
+  <section class="generator">
+    <h2>🎨 Color Generator</n2>
+    <div class="color-box" id="colorBox" onclick="generateColor()">#ffffff</div>
+    <button onclick="generateColor()">Generate Color</button>
+  </section>
 
-    <h2>🧮 Калькулятор</h2>
-    <div class="calculator">
-      <input type="number" id="num1" placeholder="Число 1">
-      <input type="number" id="num2" placeholder="Число 2">
-      <button onclick="calculate()">Сложить</button>
-      <p id="calcResult"></p>
-    </div>
+  <section class="calculator">
+    <h2>🧮 Calculator</h2>
+    <input id="num1" type="number" placeholder="Num 1">
+    <input id="num2" type="number" placeholder="Num 2">
+    <br>
+    <button onclick="calculate()">Add</button>
+    <p id="calcResult"></p>
   </section>
 
   <script>
-    function generateColor() {
-      const color = '#' + Math.floor(Math.random()*16777215).toString(16);
-      document.body.style.backgroundColor = color;
-      document.getElementById('colorResult').innerText = color;
+    // Theme toggle
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      document.body.classList.toggle('light');
     }
-
+    // Scroll animations
+    document.querySelectorAll('section').forEach(sec => {
+      new IntersectionObserver(entries => {
+        entries.forEach(e => e.isIntersecting && e.target.classList.add('show'));
+      }, {threshold:0.1}).observe(sec);
+    });
+    // Color generator
+    function generateColor() {
+      const hex = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
+      const box = document.getElementById('colorBox');
+      box.textContent = hex;
+      box.style.background = hex;
+    }
+    // Calculator
     function calculate() {
-      const n1 = +document.getElementById('num1').value;
-      const n2 = +document.getElementById('num2').value;
-      document.getElementById('calcResult').innerText = `Сумма: ${n1 + n2}`;
+      const a = parseFloat(document.getElementById('num1').value) || 0;
+      const b = parseFloat(document.getElementById('num2').value) || 0;
+      document.getElementById('calcResult').textContent = 'Result: ' + (a + b);
     }
   </script>
 </body>
