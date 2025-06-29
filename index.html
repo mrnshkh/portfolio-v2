@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>mrnshkh – Portfolio v2</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
       --bg-light: #f9f9f9;
@@ -102,6 +102,7 @@
       transform: translateY(-5px);
       box-shadow: 0 10px 20px var(--shadow);
     }
+
     /* Music Player */
     .music-player {
       position: relative;
@@ -111,6 +112,27 @@
       margin-top: 2rem;
       overflow: hidden;
       text-align: center;
+      z-index: 1;
+    }
+    .music-player::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, #00ffe588, transparent 70%);
+      animation: pulse 6s infinite;
+      z-index: 0;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.2); opacity: 0.6; }
+      100% { transform: scale(1); opacity: 0.3; }
+    }
+    .music-player > * {
+      position: relative;
+      z-index: 2;
     }
     body.light .music-player {
       background: var(--card-bg-light);
@@ -125,63 +147,59 @@
       outline: none;
       border-radius: 0.5rem;
     }
-    .wave {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 200%;
-      height: 60px;
-      background: url('https://media4.giphy.com/media/f9k1tV7HyORcngKF8v/giphy.gif') repeat-x;
-      opacity: 0.1;
-      animation: wave 8s linear infinite;
-    }
-    @keyframes wave {
-      to { transform: translateX(-50%); }
-    }
-    /* Generator & Calculator */
-    .generator, .calculator {
+
+    /* Calculator */
+    .calculator {
       background: var(--card-bg-dark);
       border-radius: 0.75rem;
       padding: 1rem;
       margin-top: 2rem;
       text-align: center;
     }
-    body.light .generator, body.light .calculator {
+    body.light .calculator {
       background: var(--card-bg-light);
     }
-    .generator .color-box {
-      font-size: 1.25rem;
+    .calc-display {
+      background: #000;
+      color: #0f0;
+      font-size: 2rem;
       padding: 1rem;
       border-radius: 0.5rem;
-      margin-bottom: 0.5rem;
-      transition: background 0.3s;
-      cursor: pointer;
+      margin-bottom: 1rem;
+      text-align: right;
+      font-family: monospace;
     }
-    .generator button, .calculator button {
-      padding: 0.75rem 1.25rem;
-      background: var(--accent);
+    .calc-buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+    }
+    .calc-buttons button {
+      padding: 1rem;
+      font-size: 1.2rem;
       border: none;
       border-radius: 0.5rem;
-      font-size: 1rem;
+      background: #1e1e1e;
+      color: #fff;
+      transition: background 0.2s;
       cursor: pointer;
-      transition: background 0.3s;
     }
-    input[type="number"], input[type="text"] {
-      width: 45%;
-      padding: 0.75rem;
-      margin: 0.5rem 0;
-      border-radius: 0.5rem;
-      border: 1px solid #444;
-      text-align: center;
+    .calc-buttons button:hover {
+      background: var(--accent);
+      color: var(--bg-dark);
     }
+    .calc-buttons .clear {
+      grid-column: span 4;
+      background: crimson;
+    }
+
     @media (max-width: 600px) {
       header h1 { font-size: 2rem; }
       h2 { font-size: 1.5rem; }
-      .generator button, .calculator button, .toggle-theme {
+      .toggle-theme {
         padding: 0.5rem 1rem;
         font-size: 0.9rem;
       }
-      input[type="number"], input[type="text"] { width: 100%; }
     }
   </style>
 </head>
@@ -227,21 +245,30 @@
       <source src="fonk.mp3" type="audio/mpeg">
       Your browser does not support audio.
     </audio>
-    <div class="wave"></div>
-  </section>
-
-  <section class="generator">
-    <h2>Color Generator</h2>
-    <div class="color-box" id="colorBox">#ffffff</div>
-    <button onclick="generateColor()">Generate Color</button>
   </section>
 
   <section class="calculator">
     <h2>Calculator</h2>
-    <input id="num1" type="number" placeholder="Number 1" />
-    <input id="num2" type="number" placeholder="Number 2" />
-    <button onclick="calculate()">Add</button>
-    <p id="calcResult"></p>
+    <div class="calc-display" id="calcDisplay">0</div>
+    <div class="calc-buttons">
+      <button onclick="press('7')">7</button>
+      <button onclick="press('8')">8</button>
+      <button onclick="press('9')">9</button>
+      <button onclick="press('/')">÷</button>
+      <button onclick="press('4')">4</button>
+      <button onclick="press('5')">5</button>
+      <button onclick="press('6')">6</button>
+      <button onclick="press('*')">×</button>
+      <button onclick="press('1')">1</button>
+      <button onclick="press('2')">2</button>
+      <button onclick="press('3')">3</button>
+      <button onclick="press('-')">−</button>
+      <button onclick="press('0')">0</button>
+      <button onclick="press('.')">.</button>
+      <button onclick="calculate()">=</button>
+      <button onclick="press('+')">+</button>
+      <button class="clear" onclick="clearCalc()">C</button>
+    </div>
   </section>
 
   <script>
@@ -250,23 +277,33 @@
       document.body.classList.toggle('dark');
       document.body.classList.toggle('light');
     }
-    // Scroll animations
+
+    // Scroll animation
     document.querySelectorAll('section').forEach(sec => {
       new IntersectionObserver(entries => {
         entries.forEach(e => e.isIntersecting && e.target.classList.add('show'));
       }, { threshold: 0.1 }).observe(sec);
     });
-    // Color Generator
-    function generateColor() {
-      const hex = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
-      document.getElementById('colorBox').textContent = hex;
-      document.getElementById('colorBox').style.background = hex;
-    }
+
     // Calculator
+    let expression = '';
+    function press(value) {
+      expression += value;
+      document.getElementById('calcDisplay').textContent = expression;
+    }
     function calculate() {
-      const a = parseFloat(document.getElementById('num1').value) || 0;
-      const b = parseFloat(document.getElementById('num2').value) || 0;
-      document.getElementById('calcResult').textContent = 'Result: ' + (a + b);
+      try {
+        const result = eval(expression);
+        document.getElementById('calcDisplay').textContent = result;
+        expression = result.toString();
+      } catch {
+        document.getElementById('calcDisplay').textContent = 'Error';
+        expression = '';
+      }
+    }
+    function clearCalc() {
+      expression = '';
+      document.getElementById('calcDisplay').textContent = '0';
     }
   </script>
 </body>
